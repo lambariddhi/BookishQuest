@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Bookish Quest</title>
+
+        <!-- Compiled and minified CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+        />
+        <link
+            rel="stylesheet"
+            href="/views/index.css"
+        />
+        <!-- Link to Icons -->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+<body>
+    <!--Nav Bar-->
+    <style>
+            .navbarcolor {
+                background-color: #E08F71;
+                height:125px;
+            }
+
+            .navbarbuttons {
+                margin-top:25px;
+            }
+
+            .hopetobecenter{
+                margin-left:375px;
+                margin-top:25px;
+            }
+
+            .recent{
+                background-color: #B0C49E;
+                padding-bottom: 50px;
+                padding-right: 50px;
+                padding-left: 50px;
+                border-radius: 50px;
+                margin-top: 25px;
+                width: 85vh;
+                float:left;
+            }
+    
+            .current{
+                background-color: #9ABBAC;
+                padding-bottom: 50px;
+                padding-right: 50px;
+                padding-left: 50px;
+                border-radius: 50px;
+                margin-top: 50px;
+                width: 85vh;
+                float:left;
+            }
+
+            .addBooks {
+                background-color: #d1f1ea;
+                padding-bottom: 50px;
+                padding-right: 50px;
+                padding-left: 50px;
+                border-radius: 50px;
+                margin-top: 50px;
+                margin-left:25px;
+                width: 65vh;
+                float:right;
+            }
+            
+            .bookstack {
+                padding-bottom: 10px;
+                padding-right: 10px;
+                padding-left: 10px;
+                border-radius: 10px;
+                margin-top: 50px;
+                margin-left:10px;
+                height:25vh;
+            }
+
+            .bookstackContainer {
+                clear:both;
+            }
+
+            .star{
+                border-radius:100px;
+            }
+    </style>
+
+    <nav class = "navbarcolor">
+        <div class="nav-wrapper">
+            <div class="center">
+                
+                <a href="/">
+                    <img src="/images/BookishQuestLogo.png" class="hopetobecenter" alt="Bookish Quest Logo" height="75px">
+                </a>
+            
+            <ul class="right navbarbuttons">
+                <li><a href="/allbooks"><i class="material-icons left">book</i>All Books</a></li>
+                <li><a href="/reviews"><i class="material-icons left">border_color</i>Reviews</a></li>
+                <li><a href="/favorites"><i class="material-icons left">favorite</i>Favorites</a></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Page Content-->
+    
+
+    <div class="container center-align">
+        <h1>Welcome to Bookish Quest!</h1>
+    </div>
+
+    <div class="container center-align">
+        <div class="section current" id="list">
+            <h3>Currently Reading</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <%for(let i = 0; i < booklist.length; i++){%>
+                        <%if (booklist[i].stateID == 0) {%>
+                        <tr>
+                            <td><%=booklist[i].title%></td>
+                            <td><%=booklist[i].author%></td>
+                            <td>
+                                <a class = "btn-small" href="/allbooks/<%=booklist[i].bookID%>"> <i class="material-icons right">edit</i>Edit</a>
+                                <a class = "btn-small red" href="/index/<%=booklist[i].bookID%>/delete"> <i class="material-icons right">delete</i>Delete</a>
+                                <%if (booklist[i].favorite == 1) {%>
+                                    <a class = "btn-small pink" href="/index/<%=booklist[i].bookID%>/unfavorite"> <i class="material-icons">favorite</i></a>
+                                <%}%>
+                                <%if (booklist[i].favorite != 1) {%>
+                                    <a class = "btn-small pink" href="/index/<%=booklist[i].bookID%>/favorite"> <i class="material-icons">favorite_border</i></a>
+                                <%}%>
+                            </td>
+                        </tr>
+                        <%}%>
+                        <%}%>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section addBooks" id="add">
+            <h2>Add a Book!</h2>
+            <form id="addForm" method="post" action="/index">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input
+                            type="text"
+                            id="titleInput"
+                            name="title"
+                            class="validate"
+                            data-length="45"
+                            required
+                        />
+                        <label for="titleInput">Title:</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input
+                            type="text"
+                            id="authorInput"
+                            name="author"
+                            class="validate"
+                            data-length="45"
+                            required
+                        />
+                        <label for="authorInput">Author:</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s4">
+                        <input
+                            type="number"
+                            id="ratingInput"
+                            name="rating"
+                            class="validate"
+                            min="1"
+                            max="5"
+                            value="3"
+                        />
+                        <label for="ratingInput">Rating (1-5): </label>
+                    </div>
+                    <div class="input-field col s8">
+                        <select
+                            type="number"
+                            name="stateID"
+                            id="typeBook"
+                        >
+                            <option value="1">Yup!</option>
+                            <option value="0">Not yet!</option>
+                        </select>
+                        <label for="typeBook">Finished?</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input
+                            type="date"
+                            id="startDateInput"
+                            name="startDate"
+                        />
+                        <label for="startDateInput">Start Date:</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input
+                            type="date"
+                            id="endDateInput"
+                            name="endDate"
+                        />
+                        <label for="endDateInput">End Date:</label>
+                    </div>
+                </div>
+
+                <button type="button" class = "btn-small star amber accent-3" href="/"> <i class="material-icons" id = "star1">star_border</i></button>
+                <button type="button" class = "btn-small star amber accent-3" href="/"> <i class="material-icons" id = "star2">star_border</i></button>
+                <button type="button" class = "btn-small star amber accent-3" href="/"> <i class="material-icons" id = "star3">star_border</i></button>
+                <button type="button" class = "btn-small star amber accent-3" href="/"> <i class="material-icons" id = "star4">star_border</i></button>
+                <button type="button" class = "btn-small star amber accent-3" href="/"> <i class="material-icons" id = "star5">star_border</i></button>
+
+                <script>
+                    let rating = 0;
+                    let ratingInput = document.getElementById("ratingInput");
+                    
+                    let star1 = document.getElementById('star1');
+                    let star2 = document.getElementById('star2');
+                    let star3 = document.getElementById('star3');
+                    let star4 = document.getElementById('star4');
+                    let star5 = document.getElementById('star5');
+
+                    if (ratingInput.value == 1) {
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star_border"
+                        star3.innerHTML = "star_border"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                    }
+
+                    if (ratingInput.value == 2) {
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star_border"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                    }
+
+                    if (ratingInput.value == 3) {
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                    }
+
+                    if (ratingInput.value == 4) {
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star"
+                        star5.innerHTML = "star_border"
+                    }
+
+                    if (ratingInput.value == 5) {
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star"
+                        star5.innerHTML = "star"
+                    }
+
+                    ratingInput.addEventListener("change", function() {
+                        if (ratingInput.value == 1) {
+                            star1.innerHTML = "star"
+                            star2.innerHTML = "star_border"
+                            star3.innerHTML = "star_border"
+                            star4.innerHTML = "star_border"
+                            star5.innerHTML = "star_border"
+                        }
+    
+                        if (ratingInput.value == 2) {
+                            star1.innerHTML = "star"
+                            star2.innerHTML = "star"
+                            star3.innerHTML = "star_border"
+                            star4.innerHTML = "star_border"
+                            star5.innerHTML = "star_border"
+                        }
+    
+                        if (ratingInput.value == 3) {
+                            star1.innerHTML = "star"
+                            star2.innerHTML = "star"
+                            star3.innerHTML = "star"
+                            star4.innerHTML = "star_border"
+                            star5.innerHTML = "star_border"
+                        }
+    
+                        if (ratingInput.value == 4) {
+                            star1.innerHTML = "star"
+                            star2.innerHTML = "star"
+                            star3.innerHTML = "star"
+                            star4.innerHTML = "star"
+                            star5.innerHTML = "star_border"
+                        }
+    
+                        if (ratingInput.value == 5) {
+                            star1.innerHTML = "star"
+                            star2.innerHTML = "star"
+                            star3.innerHTML = "star"
+                            star4.innerHTML = "star"
+                            star5.innerHTML = "star"
+                        }
+                    });
+
+                    star1.addEventListener("click", function() {
+                        rating = 1;
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star_border"
+                        star3.innerHTML = "star_border"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                        ratingInput.value = rating;
+                    });
+
+                    star2.addEventListener("click", function() {
+                        rating = 2;
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star_border"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                        ratingInput.value = rating;
+                    });
+
+                    star3.addEventListener("click", function() {
+                        rating = 3;
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star_border"
+                        star5.innerHTML = "star_border"
+                        ratingInput.value = rating;
+                    });
+
+                    star4.addEventListener("click", function() {
+                        rating = 4;
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star"
+                        star5.innerHTML = "star_border"
+                        ratingInput.value = rating;
+                    });
+
+                    star5.addEventListener("click", function() {
+                        rating = 5;
+                        star1.innerHTML = "star"
+                        star2.innerHTML = "star"
+                        star3.innerHTML = "star"
+                        star4.innerHTML = "star"
+                        star5.innerHTML = "star"
+                        ratingInput.value = rating;
+                    });
+                </script>
+                
+                <div class="row">
+                    <div class="input-field" id ="buttonsHere">
+                        <input
+                            type="text"
+                            id="reviewInput"
+                            name="review"
+                        />
+                        <label for="reviewInput">Review:</label>
+                    </div>
+                </div>
+                <button class="btn" type="submit">
+                    <i class="material-icons left">send</i>
+                    Submit
+                </button>
+            </form>
+        </div>
+
+        <!-- More on forms with text input.: https://materializecss.com/text-inputs.html -->
+        <div class="section recent" id="list2">
+            <h3>Recently Read</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i = booklist.length-1; i >= booklist.length-5; i--){%>
+                        <%if (i >= 0 && booklist[i].stateID == 1) {%>
+                        <tr>
+                            <td><%=booklist[i].title%></td>
+                            <td><%=booklist[i].author%></td>
+                            <td>
+                                <a class = "btn-small" href="/allbooks/<%=booklist[i].bookID%>"> <i class="material-icons right">edit</i>Edit</a>
+                                <a class = "btn-small red" href="/index/<%=booklist[i].bookID%>/delete"> <i class="material-icons right">delete</i>Delete</a>
+                                <%if (booklist[i].favorite == 1) {%>
+                                    <a class = "btn-small pink" href="/index/<%=booklist[i].bookID%>/unfavorite"> <i class="material-icons">favorite</i></a>
+                                <%}%>
+                                <%if (booklist[i].favorite != 1) {%>
+                                    <a class = "btn-small pink" href="/index/<%=booklist[i].bookID%>/favorite"> <i class="material-icons">favorite_border</i></a>
+                                <%}%>
+                            </td>
+                        </tr>
+                        <%}%>
+                        <%}%>
+                </tbody>
+            </table>
+        </div>
+
+        
+    </div>
+
+    <div class="container center-align bookstackContainer">
+        <img class="bookstack" src="\images\bookishquest_logo-removebg-preview.png">
+    </div>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>M.AutoInit()</script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookish Quest -- DETAILS</title>
+
+    <!-- Materialize CSS and Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Additional custom CSS -->
+     <!--Nav Bar-->
+     <style>
+        .navbarcolor {
+            background-color: #E08F71;
+            height:125px;
+        }
+
+        .navbarbuttons {
+            margin-top:25px;
+        }
+
+        .hopetobecenter{
+            margin-left:375px;
+            margin-top:25px;
+        }
+
+        .recent{
+            background-color: #B0C49E;
+            padding-bottom: 50px;
+            padding-right: 50px;
+            padding-left: 50px;
+            border-radius: 50px;
+            margin-top: 25px;
+            width: 70vh;
+            float:left;
+        }
+
+        .current{
+            background-color: #9ABBAC;
+            padding-bottom: 50px;
+            padding-right: 50px;
+            padding-left: 50px;
+            border-radius: 50px;
+            margin-top: 50px;
+            width: 70vh;
+            float:left;
+        }
+
+        .addBooks {
+            background-color: #d1f1ea;
+            padding-bottom: 50px;
+            padding-right: 50px;
+            padding-left: 50px;
+            border-radius: 50px;
+            margin-top: 50px;
+            margin-left:25px;
+            width: 70vh;
+            float:right;
+        }
+        
+        .bookstack {
+            padding-bottom: 10px;
+            padding-right: 10px;
+            padding-left: 10px;
+            border-radius: 10px;
+            margin-top: 50px;
+            margin-left:10px;
+            height:25vh;
+        }
+
+        .bookstackContainer {
+            clear:both;
+        }
+</style>
+
+<nav class = "navbarcolor">
+    <div class="nav-wrapper">
+        <div class="center">
+            
+            <a href="/">
+                <img src="/images/BookishQuestLogo.png" class="hopetobecenter" alt="Bookish Quest Logo" height="75px">
+            </a>
+        
+        <ul class="right navbarbuttons">
+            <li><a href="/allbooks"><i class="material-icons left">book</i>All Books</a></li>
+            <li><a href="/reviews"><i class="material-icons left">border_color</i>Reviews</a></li>
+            <li><a href="/favorites"><i class="material-icons left">favorite</i>Favorites</a></li>
+        </ul>
+        </div>
+    </div>
+</nav>
+    
+    <!-- Actual page content! -->
+    <div class="container">
+        <div class="section flow-text" id="details">
+            <h1><%=book.title%></h1>
+            <table>
+                <tr>
+                    <th>Author:</th>
+                    <td><%=book.author%></td>
+                </tr>
+                <tr>
+                    <th>Rating:</th>
+                    <td><%=book.rating%></td>
+                </tr>
+                <tr>
+                    <th>Start Date:</th>
+                    <td><%=book.startDate%></td>
+                </tr>
+                <tr>
+                    <th>End Date:</th>
+                    <td>
+                        <%=book.endDate%>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Review:</th>
+                    <td>
+                        <%=book.review%>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section" id="controls">
+            <a class="btn-large waves-effect waves-light orange left modal-trigger" href="#edit">
+                <i class="material-icons right">edit</i>
+                Edit
+            </a>
+            <a class="btn-large waves-effect waves-light red right" href="/allbooks/<%= book.bookID%>/delete">
+                <i class="material-icons right">delete</i>
+                Delete
+            </a>
+        </div>
+
+
+        <div class="modal" id="edit">
+            <div class="modal-content">
+                <h3>Edit item:</h3>
+                <form id="updateForm" method="post" action="/allbooks/<%=book.bookID%>">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input
+                                    type="text"
+                                    id="titleInput"
+                                    name="title"
+                                    class="validate"
+                                    data-length="45"
+                                    required
+                                    value = "<%=book.title%>"
+                                />
+                                <label for="titleInput">Title:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input
+                                    type="text"
+                                    id="authorInput"
+                                    name="author"
+                                    class="validate"
+                                    data-length="45"
+                                    required
+                                    value = "<%=book.author%>"
+                                />
+                                <label for="authorInput">Author:</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s4">
+                                <input
+                                    type="number"
+                                    id="ratingInput"
+                                    name="rating"
+                                    class="validate"
+                                    min="1"
+                                    max="5"
+                                    value = "<%=book.rating%>"
+                                />
+                                <label for="ratingInput">Rating (1-5): </label>
+                            </div>
+                            <div class="input-field col s8">
+                                <select
+                                    type="number"
+                                    name="stateID"
+                                    id="typeBook"
+                                >
+                                    <option value="1">Yup!</option>
+                                    <option value="0">Not yet!</option>
+                                </select>
+                                <label for="typeBook">Finished?</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <input
+                                    type="date"
+                                    id="startDateInput"
+                                    name="startDate"
+                                />
+                                <label for="startDateInput">Start Date:</label>
+                            </div>
+                            <div class="input-field col s6">
+                                <input
+                                    type="date"
+                                    id="endDateInput"
+                                    name="endDate"
+                                />
+                                <label for="endDateInput">End Date:</label>
+                            </div>
+                            <div class="row">
+                                <div class="input-field">
+                                    <input
+                                        type="text"
+                                        id="reviewInput"
+                                        name="review"
+                                        value = "<%=book.review%>"
+                                    />
+                                    <label for="reviewInput">Review:</label>
+                                </div>
+                            </div>
+                        </div>
+
+                </form>
+                <!-- A section for the footer of the modal -->
+                <div class="modal-footer">
+                    <!-- Since the submit button is not within the form, it must have the form attribute specified-->
+                    <button class="btn waves-effect waves-light " type="submit" form="updateForm">
+                        <i class="material-icons right">send</i>
+                        Submit
+                    </button>
+                    <button class="modal-close waves-effect waves-green btn-flat" >Never Mind</button>
+                </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Auto-initialize Materialize elements (Note - more specific initialization may be required for certain elements)-->
+    <script> M.AutoInit();</script>
+
+</body>
+
+</html>

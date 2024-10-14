@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookish Quest -- ALL BOOKS</title>
+
+    <!-- Materialize CSS and Icons-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Additional custom CSS -->
+    <style>
+        .navbarcolor {
+            background-color: #E08F71;
+            height:125px;
+        }
+
+        .navbarbuttons {
+            margin-top:25px;
+        }
+
+        .hopetobecenter{
+            margin-left:375px;
+            margin-top:25px;
+        }
+
+        .recent{
+            background-color: #B0C49E;
+            padding-bottom: 50px;
+            padding-right: 50px;
+            padding-left: 50px;
+            border-radius: 50px;
+            margin-top: 30px;
+        }
+
+        .current{
+            background-color: #9ABBAC;
+            padding-bottom: 50px;
+            padding-right: 50px;
+            padding-left: 50px;
+            border-radius: 50px;
+            margin-top: 50px;
+        }
+
+        .bColor{
+            color: black;
+            border-radius: 50px;
+            margin-left: 10px;
+        }
+        
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Nav bar: Reference: https://materializecss.com/navbar.html -->
+    <!-- It is the same navbar as index.html (I just copy pasted it :D) -->
+    <nav class = "navbarcolor">
+        <div class="nav-wrapper">
+            <div class="center">
+                
+                <a href="/">
+                    <img src="/images/BookishQuestLogo.png" class="hopetobecenter" alt="Bookish Quest Logo" height="75px">
+                </a>
+            
+            <ul class="right navbarbuttons">
+                <li><a href="/allbooks"><i class="material-icons left">book</i>All Books</a></li>
+                <li><a href="/reviews"><i class="material-icons left">border_color</i>Reviews</a></li>
+                <li><a href="/favorites"><i class="material-icons left">favorite</i>Favorites</a></li>
+            </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!-- Actual page content! -->
+    <div class="container">
+        <div class="section current" id="list">
+            <h1>Currently Reading</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Rating</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i = 0; i < booklist.length; i++){%>
+                        <%if (booklist[i].stateID == 0) {%>
+                    <tr>
+                        <td><%=booklist[i].title%></td>
+                        <td><%=booklist[i].author%></td>
+                        <td><%=booklist[i].rating%></td>
+                        <td><%=booklist[i].startDate%></td>
+                        <td><%=booklist[i].endDate%></td>
+                        <td>
+                            <a class = "btn-small white bColor right" href="/allbooks/<%=booklist[i].bookID%>"> <i class="material-icons right">edit</i>Edit</a>
+                            <a class = "btn-small white bColor right" href="/allbooks/<%=booklist[i].bookID%>/delete"> <i class="material-icons right">delete</i>Delete</a>
+                            <%if (booklist[i].favorite == 1) {%>
+                                <a class = "btn-small pink right" href="/allbooks/<%=booklist[i].bookID%>/unfavorite"> <i class="material-icons">favorite</i></a>
+                            <%}%>
+                            <%if (booklist[i].favorite != 1) {%>
+                                <a class = "btn-small pink right" href="/allbooks/<%=booklist[i].bookID%>/favorite"> <i class="material-icons">favorite_border</i></a>
+                            <%}%>
+                        </td>
+                    </tr>
+                    <%}%>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- More on forms with text input.: https://materializecss.com/text-inputs.html -->
+        <div class="section recent" id="add">
+            <h2>Read</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Rating</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i = 0; i < booklist.length; i++){%>
+                        <%if (booklist[i].stateID == 1) {%>
+                    <tr>
+                        <td><%=booklist[i].title%></td>
+                        <td><%=booklist[i].author%></td>
+                        <td><%=booklist[i].rating%></td>
+                        <td><%=booklist[i].startDate%></td>
+                        <td><%=booklist[i].endDate%></td>
+                        <td>
+                            <a class = "btn-small white bColor right" href="/allbooks/<%=booklist[i].bookID%>"> <i class="material-icons right">edit</i>Edit</a>
+                            <a class = "btn-small white bColor right" href="/allbooks/<%=booklist[i].bookID%>/delete"> <i class="material-icons right">delete</i>Remove</a>
+                            <%if (booklist[i].favorite == 1) {%>
+                                <a class = "btn-small pink right" href="/allbooks/<%=booklist[i].bookID%>/unfavorite"> <i class="material-icons">favorite</i></a>
+                            <%}%>
+                            <%if (booklist[i].favorite != 1) {%>
+                                <a class = "btn-small pink right" href="/allbooks/<%=booklist[i].bookID%>/favorite"> <i class="material-icons">favorite_border</i></a>
+                            <%}%>
+                        </td>
+                    </tr>
+                    <%}%>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- Auto-initialize Materialize elements (Note - more specific initialization may be required for certain elements)-->
+    <script> M.AutoInit();</script>
+
+</body>
+
+</html>
